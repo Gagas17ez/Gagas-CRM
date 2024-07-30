@@ -109,7 +109,8 @@ class UsersResource extends Resource
                     ->label('Filter by Role'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label('')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

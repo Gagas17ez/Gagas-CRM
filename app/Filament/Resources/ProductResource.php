@@ -29,31 +29,31 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Section::make()->schema([
-                Grid::make(2)->schema([
-                    TextInput::make('nama')
-                        ->label('Nama')
-                        ->required(),
-                    Textarea::make('deskripsi')
-                        ->label('Deskripsi'),
-                    TextInput::make('harga')
-                        ->label('Harga')
-                        ->numeric()
-                        ->helperText('Masukkan harga tanpa titik atau simbol'),
+            ->schema([
+                Section::make()->schema([
+                    Grid::make(2)->schema([
+                        TextInput::make('nama')
+                            ->label('Nama')
+                            ->required(),
+                        Textarea::make('deskripsi')
+                            ->label('Deskripsi'),
+                        TextInput::make('harga')
+                            ->label('Harga')
+                            ->numeric()
+                            ->helperText('Masukkan harga tanpa titik atau simbol'),
+                    ])
+                ]),
+
+                Section::make()->schema([
+                    FileUpload::make('gambarProduct')
+                        ->label('Upload Gambar')
+                        ->image()
+                        ->imageEditor()
+                        ->disk('public')
+                        ->directory('product_images')
+                        ->helperText('Unggah gambar produk'),
                 ])
-            ]),
-            
-            Section::make()->schema([
-                FileUpload::make('gambarProduct')
-                ->label('Upload Gambar')
-                ->image()
-                ->imageEditor()
-                ->disk('public')
-                ->directory('product_images')
-                ->helperText('Unggah gambar produk'),
-            ])
-        ]);
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -68,14 +68,15 @@ class ProductResource extends Resource
                     ->money('IDR', true),
                 TextColumn::make('deskripsi')
                     ->label('Deskripsi'),
-                
-                
+
+
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label('')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

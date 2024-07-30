@@ -68,13 +68,37 @@ class LeadProcessResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('customer.nama')
-                    ->label('Customer')
-                    ->sortable()
-                    ->searchable(),
+        $columns = [
+            TextColumn::make('customer.nama')
+                ->label('Customer')
+                ->sortable()
+                ->searchable(),
+        ];
 
+        $commonFilters = [
+            Tables\Filters\SelectFilter::make('status')
+                ->options([
+                    'dibuat' => 'Dibuat',
+                    'pending' => 'Pending',
+                    'diterima' => 'Diterima',
+                    'ditolak' => 'Ditolak',
+                ])
+                ->label('Filter by Status'),
+        ];
+
+        $commonActions = [
+            Tables\Actions\EditAction::make()->label(''),
+            Tables\Actions\DeleteAction::make()->label('')
+        ];
+
+        $commonBulkActions = [
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ];
+
+        if (auth()->user()->role == 2) {
+            $columns = array_merge($columns, [
                 TextColumn::make('status')->badge()->label('Status')
                     ->color(fn(string $state): string => match ($state) {
                         'dibuat' => 'info',
@@ -82,30 +106,32 @@ class LeadProcessResource extends Resource
                         'diterima' => 'success',
                         'ditolak' => 'warning',
                     }),
-
-                TextColumn::make('deskripsi')
-                    ->label('Deskripsi')
-                    ->limit(20),
-            ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('status')
+            ]);
+        } else {
+            $columns = array_merge($columns, [
+                SelectColumn::make('status')->label('Status')
                     ->options([
                         'dibuat' => 'Dibuat',
                         'pending' => 'Pending',
                         'diterima' => 'Diterima',
                         'ditolak' => 'Ditolak',
                     ])
-                    ->label('Filter by Status'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+        }
+
+        $columns = array_merge($columns, [
+            TextColumn::make('deskripsi')
+                ->label('Deskripsi')
+                ->limit(20),
+        ]);
+
+        return $table
+            ->columns($columns)
+            ->filters($commonFilters)
+            ->actions($commonActions)
+            ->bulkActions($commonBulkActions);
     }
+
 
     public static function getRelations(): array
     {

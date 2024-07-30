@@ -31,24 +31,24 @@ class CustomerResource extends Resource
                 Section::make()->schema([
                     Grid::make(2)->schema([
                         TextInput::make('nama')->label('Nama')->required(),
-                    Select::make('tipe')
-                        ->label('Tipe')
-                        ->options([
-                            'lead' => 'lead',
-                            'customer' => 'customer',
-                        ])->required(),
-                    Select::make('skala')
-                        ->label('Skala Customer')
-                        ->options([
-                            'individu' => 'individu',
-                            'perusahaan' => 'perusahaan'
-                        ])->required(),
-                    TextInput::make('email')->email()->label('Email'),
-                    TextInput::make('telefon')->label('Phone')->required(),
-                    TextInput::make('alamat')->label('Address')->required(),
-                    TextInput::make('instagram')->label('Instagram'),
-                    TextInput::make('facebook')->label('Facebook'),
-                    TextInput::make('twitter')->label('Twitter'),
+                        Select::make('tipe')
+                            ->label('Tipe')
+                            ->options([
+                                'lead' => 'lead',
+                                'customer' => 'customer',
+                            ])->required(),
+                        Select::make('skala')
+                            ->label('Skala Customer')
+                            ->options([
+                                'individu' => 'individu',
+                                'perusahaan' => 'perusahaan'
+                            ])->required(),
+                        TextInput::make('email')->email()->label('Email'),
+                        TextInput::make('telefon')->label('Phone')->required(),
+                        TextInput::make('alamat')->label('Address')->required(),
+                        TextInput::make('instagram')->label('Instagram'),
+                        TextInput::make('facebook')->label('Facebook'),
+                        TextInput::make('twitter')->label('Twitter'),
                     ])
                 ])
             ]);
@@ -60,21 +60,22 @@ class CustomerResource extends Resource
             ->columns([
                 TextColumn::make('nama')->label('Nama')->sortable()->searchable(),
                 TextColumn::make('tipe')->badge()->label('Tipe')
-                ->color(fn (string $state): string => match ($state) {
-                    'lead' => 'info',
-                    'customer' => 'success',
-                }),
+                    ->color(fn(string $state): string => match ($state) {
+                        'lead' => 'info',
+                        'customer' => 'success',
+                    }),
                 TextColumn::make('skala')->label('Skala'),
-                TextColumn::make('email')  
-                        ->icon('heroicon-m-envelope')
-                        ->copyable()
-                        ->copyMessage('Email tercopy')
-                        ->copyMessageDuration(1000),
-                TextColumn::make('telefon')->label('Telepon'),
-                TextColumn::make('alamat')->label('Alamat')->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('instagram')->label('Instagram')->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('facebook')->label('Facebook')->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('twitter')->label('Twitter')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('email')
+                    ->icon('heroicon-m-envelope')
+                    ->copyable()
+                    ->copyMessage('Email tercopy')
+                    ->copyMessageDuration(1000),
+                TextColumn::make('telefon')->label('Telepon')->copyable()->copyMessage('Telepon tercopy'),
+                TextColumn::make('alamat')->label('Alamat')->toggleable(isToggledHiddenByDefault: true)->copyable()->copyMessage('Alamat tercopy'),
+                TextColumn::make('instagram')->label('Instagram')->toggleable(isToggledHiddenByDefault: true)->copyable()->copyMessage('Instagram tercopy'),
+                TextColumn::make('facebook')->label('Facebook')->toggleable(isToggledHiddenByDefault: true)->copyable()->copyMessage('Facebook tercopy'),
+                TextColumn::make('twitter')->label('Twitter')->toggleable(isToggledHiddenByDefault: true)->copyable()
+                    ->copyMessage('Twitter tercopy'),
             ])
             ->filters([
                 SelectFilter::make('tipe')
@@ -84,15 +85,16 @@ class CustomerResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         if (!isset($data['value'])) {
-                            return $query; 
+                            return $query;
                         }
-            
+
                         return $query->where('tipe', $data['value']);
                     })
                     ->label('Filter by Type'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -104,7 +106,7 @@ class CustomerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            
+
         ];
     }
 
