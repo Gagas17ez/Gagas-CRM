@@ -27,28 +27,40 @@ cd nama-repo
 
 ### Setup ENV
 
+```
 cp .env.example .env
+```
 
 Edit ENV sesuai enviroment tersedia
 
 ### Generate KEY
 
+```
 php artisan key:generate
+```
 
 ### Install Dep
 
+```
 Composer Install
+```
 
 ### Lakukan Migrasi
 
+```
 php artisan migrate
+```
 
 ### Buat User Pertama
 
 dikarenakan tidak ada req register membuat user pertama harus menggunakan command line
 
+```
 php artisan make:filament-user
+```
 
 ### Jalankan Server
 
+```
 php artisan serve
+```
