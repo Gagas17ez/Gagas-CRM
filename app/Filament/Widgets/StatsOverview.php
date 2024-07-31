@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Filament\Widgets;
+
 use App\Models\Customer;
 use App\Models\Sales;
 use App\Models\LeadProcess;
@@ -19,7 +20,7 @@ class StatsOverview extends BaseWidget
             Stat::make('Jumlah Customer', number_format($JumlahCustomer)),
             Stat::make('Jumlah Leads', number_format($JumlahLeads)),
             Stat::make('Jumlah Sales', number_format($JumlahSales)),
-            Stat::make('Jumlah Sales', number_format($JumlahLeadProcess)),
+            Stat::make('Jumlah Lead Process', number_format($JumlahLeadProcess)),
         ];
     }
 }
