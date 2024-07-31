@@ -41,12 +41,12 @@ class UsersResource extends Resource
                     Grid::make(2)->schema([
                         TextInput::make('name')
                             ->required()
-                            ->label('Nama'),
+                            ->label('Nama')->unique('users', 'name'),
 
                         TextInput::make('email')
                             ->email()
                             ->required()
-                            ->label('Email'),
+                            ->label('Email')->unique('users', 'email'),
 
                         TextInput::make(name: 'password')->required()->label('Password')->password()
                             ->dehydrateStateUsing(fn(string $state): string => Hash::make($state)),
