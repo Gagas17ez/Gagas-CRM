@@ -17,8 +17,5 @@ class ListLeadProcesses extends ListRecords
         ];
     }
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->previousUrl ?? $this->getResource()::getUrl('index');
-    }
+    
 }
