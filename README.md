@@ -1,3 +1,7 @@
+# Link Deploy 
+
+https://ptsmart.mitrakami.my.id
+
 # PT Smart Coding Test
 
 Divisi sales masih melakukan rekap data calon customer (lead), customer, produk (layanan
